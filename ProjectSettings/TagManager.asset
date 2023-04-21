@@ -15,6 +15,10 @@ TagManager:
   - water
   - wood
   - metal
+  - FX
+  - World
+  - Target
+  - Zombie
   layers:
   - Default
   - TransparentFX
@@ -24,9 +28,9 @@ TagManager:
   - UI
   - 
   - Ground
-  - 
-  - 
-  - 
+  - Gun
+  - Bullet
+  - Item
   - 
   - 
   - 
