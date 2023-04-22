@@ -37,7 +37,7 @@ public class FPCharacterControllerMovement : Singleton<FPCharacterControllerMove
     private void Start()
     {
         characterController = GetComponent<CharacterController>();
-        characterAnimator = GetComponentInChildren<Animator>();
+        //characterAnimator = GetComponentInChildren<Animator>();
         characterTransform = transform;
         originHeight = characterController.height;
 

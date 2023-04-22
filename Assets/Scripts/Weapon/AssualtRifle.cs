@@ -8,19 +8,18 @@ namespace Scripts.Weapon
     public class AssualtRifle : FireArms
     {
         private IEnumerator reloadAmmoCheckerCoroutine;
-        //协程
-        private IEnumerator doAimCoroutine;
+        private FPMouseLook mouseLook;
 
-
-        protected override void Start()
+        protected override void Awake()
         {
-            base.Start();
+            base.Awake();
             reloadAmmoCheckerCoroutine = CheckReloadAmmoAnimationEnd();
-            doAimCoroutine = DoAim();
 
+            mouseLook = FindObjectOfType<FPMouseLook>();
         }
+        
 
-        private void Update()
+        /*private void Update()
         {
             if(Input.GetMouseButton(0))
             {
@@ -41,57 +40,20 @@ namespace Scripts.Weapon
                 Aiming();
             }
 
-        }
+        }*/
 
         //执行瞄准FOV协程和瞄准动画
-        protected override void Aiming()
+        /*protected override void Aiming()
         {
             //瞄准的音效
-            /*firearmsReloadAudioSource.clip = aimClip;
-            firearmsReloadAudioSource.Play();*/
+            *//*firearmsReloadAudioSource.clip = aimClip;
+            firearmsReloadAudioSource.Play();*//*
 
         
-            gunAnimator.SetBool("Aim", isAiming);
-            if (doAimCoroutine == null)
-            {
-                doAimCoroutine = DoAim();
-                StartCoroutine(doAimCoroutine);
-            }
-            else
-            {
-                StopCoroutine(doAimCoroutine);
-                doAimCoroutine = null;
-                doAimCoroutine = DoAim();
-                StartCoroutine(doAimCoroutine);
-            }
-        }
+            
+        }*/
 
-        //瞄准时FOV变化的协程
-        protected IEnumerator DoAim()
-        {
-            while (true)
-            {
-                yield return null;
-
-                //MainCamera
-                float tmp_EyeCurrentFOV = 0;
-                eyeCamera.fieldOfView = Mathf.SmoothDamp(eyeCamera.fieldOfView,
-                    isAiming ? 26 : eyeOriginFOV,
-                    ref tmp_EyeCurrentFOV, Time.deltaTime * 2);
-
-               /* //GunCamera
-                float tmp_GunCurrentFOV = 0;
-                gunCamera.fieldOfView = Mathf.SmoothDamp(gunCamera.fieldOfView,
-                    isAiming ? rigoutScopeInfo.gunFOV : gunOriginFOV,
-                    ref tmp_GunCurrentFOV, Time.deltaTime * 2);
-
-                //GunCamera.transform.localPosition
-                Vector3 tmp_RefPosition = Vector3.zero;
-                gunCameraTransform.localPosition = Vector3.SmoothDamp(gunCameraTransform.localPosition,
-                    isAiming ? rigoutScopeInfo.gunCameraPosition : originalEyePosition,
-                    ref tmp_RefPosition, Time.deltaTime * 2);*/
-            }
-        }
+        
 
         protected override void Shooting()
         {
@@ -109,6 +71,10 @@ namespace Scripts.Weapon
             muzzleParticle.Play();
             CreateBullet();
             casingParticle.Play();
+
+            //后坐力
+            mouseLook.FirngForTest();
+
             lastFireTime = Time.time;
         }
 
@@ -143,7 +109,10 @@ namespace Scripts.Weapon
         protected void CreateBullet()
         {
             GameObject tmp_Bullet = Instantiate(bulletPrefab, muzzlePoint.position, muzzlePoint.rotation);
-            
+
+            //子弹的散射（圆周内
+            tmp_Bullet.transform.eulerAngles += CalculateSpreadOffset();
+
             var tmp_BulletScript = tmp_Bullet.AddComponent<Bullet>();
             //tmp_BulletRigidbody.velocity = tmp_Bullet.transform.forward * 100f;
             tmp_BulletScript.impactPrefab = bulletImpactPrefab;
@@ -159,41 +128,7 @@ namespace Scripts.Weapon
         }
 
 
-        //检测换弹是否完成的协程
-        protected IEnumerator CheckReloadAmmoAnimationEnd()
-        {
-            while (true)
-            {   
-                //TODO:
-                //isRealoding = true;
-
-                yield return null;
-                //获取第三层动画机信息
-                gunStateInfo = gunAnimator.GetCurrentAnimatorStateInfo(2);
-                //寻找对应Tag的全部动画
-                if (gunStateInfo.IsTag("ReloadAmmo"))
-                {
-                    //检测该动画执行的完成度
-                    if (gunStateInfo.normalizedTime > 0.9f)
-                    {
-                        //换弹需求子弹数量
-                        int tmp_NeedAmmoCount = ammoInMag - currentAmmo;
-                        //剩余子弹数量
-                        int tmp_RemainingAmmo = currentMaxAmmoCarried - tmp_NeedAmmoCount;
-
-                        //更新当前子弹信息
-                        if (tmp_RemainingAmmo <= 0) currentAmmo += currentMaxAmmoCarried;
-                        else currentAmmo = ammoInMag;
-                        currentMaxAmmoCarried = tmp_RemainingAmmo <= 0 ? 0 : tmp_RemainingAmmo;
-
-                        //TODO:
-                        //isRealoding = false;
-
-                        yield break;
-                    }
-                }
-            }
-        }
+        
 
         
     }

@@ -19,13 +19,13 @@ public class FPMouseLook : MonoBehaviour
     private float currentRecoilTime;
     private Vector2 currentRecoil;
     public float recoilFadeOutTime = 0.3f;
-    //private CameraSpring cameraSpring;
+    private CameraSpring cameraSpring;
 
     private void Start()
     {
         cameraTransform = transform;
-        //currentRecoil = recoilRange;
-        //cameraSpring = GetComponentInChildren<CameraSpring>();
+        currentRecoil = recoilRange;
+        cameraSpring = GetComponentInChildren<CameraSpring>();
 
         Cursor.lockState = CursorLockMode.Locked;
     }
@@ -73,7 +73,7 @@ public class FPMouseLook : MonoBehaviour
         //每射击一次，增加一个后坐力的缓冲
         currentRecoil += recoilRange;
         //射击的震屏效果 
-        //cameraSpring.StartCameraSpring();
+        cameraSpring.StartCameraSpring();
         //重置计时器，这样让后续的后坐力值减小
         currentRecoilTime = 0;
     }
