@@ -24,7 +24,8 @@ namespace Scripts.Weapon
 
         protected int currentAmmo;
         protected int currentMaxAmmoCarried;
-
+        public int GetCurrentAmmoreturn => currentAmmo;
+        public int GetCurrentMaxAmmoCarried => currentMaxAmmoCarried;
 
         public float spreadAngle;
 
@@ -54,7 +55,7 @@ namespace Scripts.Weapon
 
         //FOV
         public Camera eyeCamera;
-        //public Camera gunCamera;
+        public Camera gunCamera;
         protected float originFOV;
 
         protected float eyeOriginFOV;
@@ -83,6 +84,13 @@ namespace Scripts.Weapon
 
             eyeOriginFOV = eyeCamera.fieldOfView;
             originFOV = eyeCamera.fieldOfView;
+
+            gunOriginFOV = gunCamera.fieldOfView;
+
+            gunCameraTransform = gunCamera.transform;
+            originalEyePosition = gunCameraTransform.localPosition;
+
+            rigoutScopeInfo = baseIronSight;
         }
 
         public void DoAttack()
@@ -163,20 +171,20 @@ namespace Scripts.Weapon
                 //MainCamera
                 float tmp_EyeCurrentFOV = 0;
                 eyeCamera.fieldOfView = Mathf.SmoothDamp(eyeCamera.fieldOfView,
-                    isAiming ? 26 : eyeOriginFOV,
+                    isAiming ? rigoutScopeInfo.eyeFOV : eyeOriginFOV,
                     ref tmp_EyeCurrentFOV, Time.deltaTime * 2);
 
-                /* //GunCamera
-                 float tmp_GunCurrentFOV = 0;
-                 gunCamera.fieldOfView = Mathf.SmoothDamp(gunCamera.fieldOfView,
-                     isAiming ? rigoutScopeInfo.gunFOV : gunOriginFOV,
-                     ref tmp_GunCurrentFOV, Time.deltaTime * 2);
+                //GunCamera
+                float tmp_GunCurrentFOV = 0;
+                gunCamera.fieldOfView = Mathf.SmoothDamp(gunCamera.fieldOfView,
+                    isAiming ? rigoutScopeInfo.gunFOV : gunOriginFOV,
+                    ref tmp_GunCurrentFOV, Time.deltaTime * 2);
 
-                 //GunCamera.transform.localPosition
-                 Vector3 tmp_RefPosition = Vector3.zero;
-                 gunCameraTransform.localPosition = Vector3.SmoothDamp(gunCameraTransform.localPosition,
-                     isAiming ? rigoutScopeInfo.gunCameraPosition : originalEyePosition,
-                     ref tmp_RefPosition, Time.deltaTime * 2);*/
+                //GunCamera.transform.localPosition
+                Vector3 tmp_RefPosition = Vector3.zero;
+                gunCameraTransform.localPosition = Vector3.SmoothDamp(gunCameraTransform.localPosition,
+                    isAiming ? rigoutScopeInfo.gunCameraPosition : originalEyePosition,
+                    ref tmp_RefPosition, Time.deltaTime * 2);
             }
         }
 

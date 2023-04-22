@@ -4,12 +4,15 @@ using Scripts.Items;
 using Scripts.Weapon;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
+using UnityEngine.UI;
 using static Scripts.Weapon.FireArms;
 
-public class WeaponManager : MonoBehaviour
+public class WeaponManager : Singleton<WeaponManager>
 {
     public FireArms mainWeapon;
     public FireArms secondaryWeapon;
+
+
 
     private FireArms carriedWeapon;
     [SerializeField] private FPCharacterControllerMovement fPCharacterControllerMovement;
@@ -28,6 +31,11 @@ public class WeaponManager : MonoBehaviour
     public bool isHoldingTrigger;
     public bool isInspecting;
 
+    //UI
+    //public GameObject crosshair;
+
+    public Text ammoCountText;
+
     private void Start()
     {
         //fPCharacterControllerMovement = FindObjectOfType<FPCharacterControllerMovement>();
@@ -43,6 +51,9 @@ public class WeaponManager : MonoBehaviour
             //匹配枪对应的Animator
             fPCharacterControllerMovement.SetUpAnimator(carriedWeapon.gunAnimator);
         }
+
+        //清空子弹信息
+        ammoCountText.text = "";
     }
 
     private void Update()
@@ -97,6 +108,8 @@ public class WeaponManager : MonoBehaviour
             //StartCoroutine(CheckInspectingAnimationEnd());
 
         }
+
+        UpdateAmmoText(carriedWeapon.GetCurrentAmmoreturn, carriedWeapon.GetCurrentMaxAmmoCarried);
     }
 
     //检测物体Item类
@@ -296,4 +309,9 @@ public class WeaponManager : MonoBehaviour
         fPCharacterControllerMovement.SetUpAnimator(carriedWeapon.gunAnimator);
     }
 
+    //更新子弹的数据
+    private void UpdateAmmoText(int _currentAmmo, int _currentMaxAmmo)
+    {
+        ammoCountText.text = _currentAmmo + "/" + _currentMaxAmmo;
+    }
 }
