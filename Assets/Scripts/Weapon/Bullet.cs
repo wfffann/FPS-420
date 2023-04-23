@@ -8,6 +8,7 @@ public class Bullet : MonoBehaviour
     //组件
     private Rigidbody bulletRigidbody;
     private Transform bulletTransform;
+    public CharacterStats characterStats;
 
     //特效
     public GameObject impactPrefab;
@@ -22,7 +23,7 @@ public class Bullet : MonoBehaviour
     private void Start()
     {
         
-        //characterStats = GetComponent<CharacterStats>();
+        characterStats = GetComponent<CharacterStats>();
         bulletTransform = transform;
         prevPosition = bulletTransform.position;
     }
@@ -36,6 +37,22 @@ public class Bullet : MonoBehaviour
                 out RaycastHit tmp_Hit,
                 (bulletTransform.position - prevPosition).magnitude))
         {
+
+            //如果打中的是僵尸
+            if (tmp_Hit.collider.gameObject.CompareTag("Zombie"))
+            {
+                //传入的是僵尸的characterStats
+                BulletTakeDamage(characterStats, tmp_Hit);
+                //Debug.Log("打中了Zombie！");
+            }
+
+            //如果打中了Player
+            else if (tmp_Hit.collider.gameObject.CompareTag("Player"))
+            {
+                BulletTakeDamage(characterStats, tmp_Hit);
+                Debug.Log("Enemy打中了Player！");
+            }
+
             var tmp_BulletImpact =  Instantiate(impactPrefab, tmp_Hit.point, Quaternion.LookRotation(tmp_Hit.normal, Vector3.up));
 
             //寻找Tag的碰撞音效
@@ -51,9 +68,21 @@ public class Bullet : MonoBehaviour
                 AudioSource.PlayClipAtPoint(tmp_AudioClip, tmp_Hit.point);
             }
 
+
             Destroy(tmp_BulletImpact, 3);
+            Destroy(transform.gameObject);
         }
         
+    }
+
+    //子弹造成伤害
+    private void BulletTakeDamage(CharacterStats _characterStat, RaycastHit _Hit)
+    {
+        /*var tmp_Damage = Random.Range(_characterStat.attackData.minDamage, _characterStat.attackData.maxDemage);
+        _Hit.collider.transform.gameObject.GetComponent<CharacterStats>().characterData.currentHealth -= tmp_Damage;*/
+        var tmp_Target = _Hit.collider.gameObject.GetComponent<CharacterStats>();
+        tmp_Target.TakeDamage(_characterStat, tmp_Target);
+
     }
 
 }

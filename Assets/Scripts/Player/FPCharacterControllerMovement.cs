@@ -45,6 +45,7 @@ public class FPCharacterControllerMovement : Singleton<FPCharacterControllerMove
 
     private void Update()
     {
+        //判断是否奔跑
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             isRunning = true;
@@ -54,7 +55,6 @@ public class FPCharacterControllerMovement : Singleton<FPCharacterControllerMove
             isRunning = false;
         }
 
-
         float tmp_CurrentSpeed = walkSpeed;
 
         if (characterController.isGrounded)
@@ -62,6 +62,7 @@ public class FPCharacterControllerMovement : Singleton<FPCharacterControllerMove
             //获取移动输入
             var tmp_Horizontal = Input.GetAxis("Horizontal");
             var tmp_Vertical = Input.GetAxis("Vertical");
+
             //获取朝向
             movementDirection =
                 characterTransform.TransformDirection(new Vector3(tmp_Horizontal, 0, tmp_Vertical));
@@ -71,7 +72,6 @@ public class FPCharacterControllerMovement : Singleton<FPCharacterControllerMove
             {
                 movementDirection.y = jumpHeight;  //指明了向量的方向和大小
             }
-
         }
 
         //下蹲
@@ -92,10 +92,6 @@ public class FPCharacterControllerMovement : Singleton<FPCharacterControllerMove
             tmp_CurrentSpeed = Input.GetKey(KeyCode.LeftShift) ? springSpeed : walkSpeed;
         }
 
-
-
-
-
         //角色速度与动画连接的变量
         var tmp_Velocity = characterController.velocity;
         //防止下蹲起立出现行走的动画
@@ -103,12 +99,10 @@ public class FPCharacterControllerMovement : Singleton<FPCharacterControllerMove
         velocity = new Vector3(tmp_Velocity.x, 0, tmp_Velocity.z).magnitude;
 
 
-
         if (characterAnimator != null)
         {
             characterAnimator.SetFloat("velocity", velocity, 0.2f, Time.deltaTime);  // 0.2为过渡时间
         }
-
 
         //重力效果
         movementDirection.y -= gravity * Time.deltaTime;

@@ -394,6 +394,9 @@
 "Assets/Package/StylizedProjectilePack1/WebDemo/scripts/projectileActor.cs"
 "Assets/Scripts/Camera/CameraSpring.cs"
 "Assets/Scripts/Camera/CameraSpringUtility.cs"
+"Assets/Scripts/CharacterStates/AttackData_SO.cs"
+"Assets/Scripts/CharacterStates/CharacterData_SO.cs"
+"Assets/Scripts/CharacterStates/CharacterStats.cs"
 "Assets/Scripts/Items/AttachmentItem.cs"
 "Assets/Scripts/Items/BaseItem.cs"
 "Assets/Scripts/Items/FirearmsItem.cs"
@@ -410,6 +413,8 @@
 "Assets/Scripts/Weapon/FireArmsAudioData.cs"
 "Assets/Scripts/Weapon/ImpactAudioData.cs"
 "Assets/Scripts/Weapon/IWeapon.cs"
+"Assets/Scripts/Zombie/NewZombieMovement.cs"
+"Assets/Scripts/Zombie/ZombieMovement.cs"
 -langversion:9.0
 
 /deterministic

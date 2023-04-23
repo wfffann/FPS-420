@@ -114,6 +114,7 @@ namespace Scripts.Weapon
 
             isAiming = _isAiming;
             gunAnimator.SetBool("Aim", isAiming);
+
             if (doAimCoroutine == null)
             {
                 doAimCoroutine = DoAim();
@@ -193,8 +194,8 @@ namespace Scripts.Weapon
         {
             while (true)
             {
-                //TODO:
-                //isRealoding = true;
+                
+                isRealoding = true;
 
                 yield return null;
                 //获取第三层动画机信息
@@ -215,8 +216,8 @@ namespace Scripts.Weapon
                         else currentAmmo = ammoInMag;
                         currentMaxAmmoCarried = tmp_RemainingAmmo <= 0 ? 0 : tmp_RemainingAmmo;
 
-                        //TODO:
-                        //isRealoding = false;
+                        
+                        isRealoding = false;
 
                         yield break;
                     }

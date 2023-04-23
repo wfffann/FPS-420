@@ -29,7 +29,7 @@ public class WeaponManager : Singleton<WeaponManager>
 
     //bool
     public bool isHoldingTrigger;
-    public bool isInspecting;
+    //public bool isInspecting;
 
     //UI
     //public GameObject crosshair;
@@ -45,6 +45,7 @@ public class WeaponManager : Singleton<WeaponManager>
         
         //fPCharacterControllerMovement.SetUpAnimator(carriedWeapon.gunAnimator);
 
+        //如果此时有主武器
         if (mainWeapon)
         {
             carriedWeapon = mainWeapon;
@@ -58,14 +59,16 @@ public class WeaponManager : Singleton<WeaponManager>
 
     private void Update()
     {
+        
+        //TODO：应该是有按键再发射出射线？
+        //射线检测Items
         CheckItem();
 
-        //检测是否换枪
+        //检测是否拥有枪
         if (!carriedWeapon) return;
 
+        //主副武器的切换
         SwapWeapon();
-
-        
 
         //射击
         if (Input.GetMouseButton(0))
@@ -103,7 +106,7 @@ public class WeaponManager : Singleton<WeaponManager>
         //检视武器
         if (Input.GetKeyDown(KeyCode.T))
         {
-            isInspecting = true;
+            //isInspecting = true;
             carriedWeapon.gunAnimator.SetTrigger("Show");
             //StartCoroutine(CheckInspectingAnimationEnd());
 
@@ -211,15 +214,11 @@ public class WeaponManager : Singleton<WeaponManager>
     //切换武器
     private void SwapWeapon()
     {
-
-
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-
-
             if (mainWeapon == null) return;
             if (carriedWeapon == mainWeapon) return;
-
+            
             if (carriedWeapon.gameObject.activeInHierarchy)
             {
                 StartWaitingForHoisterCoroutine();
@@ -237,8 +236,6 @@ public class WeaponManager : Singleton<WeaponManager>
         //更换副武器
         else if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            
-
             if (secondaryWeapon == null) return;
             if (carriedWeapon == secondaryWeapon) return;
 
@@ -253,10 +250,7 @@ public class WeaponManager : Singleton<WeaponManager>
             }
 
             //PlayTakeOutAudio(audioSource);
-
-            
         }
-
     }
 
     //开始换枪的协程
@@ -274,7 +268,8 @@ public class WeaponManager : Singleton<WeaponManager>
         {
             AnimatorStateInfo tmp_AnimatorStateInfo = carriedWeapon.gunAnimator.GetCurrentAnimatorStateInfo(0);
             if (tmp_AnimatorStateInfo.IsTag("Hoister"))
-            {
+            {   
+                //检测动画完成度
                 if (tmp_AnimatorStateInfo.normalizedTime >= 0.9f)
                 {
                     var tmp_TargetWeapon = carriedWeapon == mainWeapon ? secondaryWeapon : mainWeapon;

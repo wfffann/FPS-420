@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerFootStepsLisener : MonoBehaviour
-{
-    public FootStepAudioData footstepAudioData;
-    public AudioSource footAudioSource;
-
+{   
+    //组件
     private CharacterController characterController;
     private Transform footStepTransform;
 
+    //音效
+    public FootStepAudioData footstepAudioData;
+    public AudioSource footAudioSource;
+
+    //数据
     private float nextPlayTime;
 
     public LayerMask layerMask;
 
+    //人物的状态枚举
     public enum State
     {
         idle,
@@ -24,7 +28,6 @@ public class PlayerFootStepsLisener : MonoBehaviour
     }
 
     public State characterState;
-
 
     private void Start()
     {
@@ -43,7 +46,7 @@ public class PlayerFootStepsLisener : MonoBehaviour
                 nextPlayTime += Time.deltaTime;
 
                 //判断各种状态
-                if (characterController.velocity.magnitude > 4f)
+                if (characterController.velocity.magnitude > 4.5f)
                 {
                     characterState = State.sprinting;
                 }
@@ -60,18 +63,15 @@ public class PlayerFootStepsLisener : MonoBehaviour
                     characterState = State.idle;
                 }
 
-
                 //播放移动声音
                 bool tmp_IsHit = Physics.Linecast(footStepTransform.position,
                     //注意需要跟新他的终点位置，和skinWidth,否则无法接触地面
                     footStepTransform.position + Vector3.down * (characterController.height / 2 + characterController.skinWidth - characterController.center.y),
                     out RaycastHit tmp_HitInfo, layerMask);
 
-
                 //向下检测碰撞的Tag，以影响延时
                 if (tmp_IsHit)
                 {
-
                     foreach (var tmp_AudioElement in footstepAudioData.footStepAudios)
                     {
                         if (tmp_HitInfo.collider.CompareTag(tmp_AudioElement.Tag))
@@ -103,17 +103,15 @@ public class PlayerFootStepsLisener : MonoBehaviour
                                 int tmp_AudioIndex = Random.Range(0, tmp_AudioCount);
                                 footAudioSource.clip = tmp_AudioElement.AudioClips[tmp_AudioIndex];
                                 footAudioSource.Play();
+
                                 //清空计时
                                 nextPlayTime = 0;
                                 break;
                             }
-
-
                         }
                     }
                 }
             }
         }
     }
-
 }

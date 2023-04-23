@@ -57,10 +57,14 @@ namespace Scripts.Weapon
 
         protected override void Shooting()
         {
-            Debug.Log("Shoting!");
+            //Debug.Log("Shoting!");
             if (currentAmmo <= 0) return;
             if (!IsAllowShooting()) return;
+
+            //子弹数量
             currentAmmo -= 1;
+
+            //动画层的选择
             gunAnimator.Play("Fire", isAiming ? 1 : 0, 0);
 
             //音效
@@ -69,12 +73,17 @@ namespace Scripts.Weapon
 
             //枪焰特效
             muzzleParticle.Play();
+
+            //子弹
             CreateBullet();
+
+            //弹壳
             casingParticle.Play();
 
             //后坐力
             mouseLook.FirngForTest();
 
+            //更新计时器
             lastFireTime = Time.time;
         }
 
@@ -83,6 +92,7 @@ namespace Scripts.Weapon
         {
             //更新动画层的权重
             gunAnimator.SetLayerWeight(2, 1);
+
             //根据当前的子弹数量判断执行的动画
             gunAnimator.SetTrigger(currentAmmo > 0 ? "ReloadLeft" : "ReloadOutOf");
 
@@ -115,6 +125,8 @@ namespace Scripts.Weapon
 
             var tmp_BulletScript = tmp_Bullet.AddComponent<Bullet>();
             //tmp_BulletRigidbody.velocity = tmp_Bullet.transform.forward * 100f;
+
+            //在这个脚本获取有利于替换和管理
             tmp_BulletScript.impactPrefab = bulletImpactPrefab;
             tmp_BulletScript.impactAudioData = impactAudioData;
             tmp_BulletScript.bulletSpeed = 100f;

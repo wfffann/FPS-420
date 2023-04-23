@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7167913827045298163}
   - component: {fileID: 3391969281513573214}
   - component: {fileID: -5826493062726979664}
+  - component: {fileID: 7217032810695642971}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -153,6 +154,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c280859c2ffc3b64796be0a4007633fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterStats: {fileID: 7217032810695642971}
   impactPrefab: {fileID: 0}
   bulletSpeed: 0
   impactAudioData: {fileID: 0}
+--- !u!114 &7217032810695642971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7798057745763108684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8680d6d800bf9b47a6eddab6502fb9e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  templateData: {fileID: 0}
+  characterData: {fileID: 0}
+  attackData: {fileID: 11400000, guid: 88d8fc9a58f7c9e42a51b42f08f87077, type: 2}
+  enemyHealth: {fileID: 0}
