@@ -19,6 +19,7 @@ TagManager:
   - World
   - Target
   - Zombie
+  - blood
   layers:
   - Default
   - TransparentFX

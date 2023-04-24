@@ -104,10 +104,7 @@ public class NewZombieMovement : MonoBehaviour
             enemyAgent.isStopped = false;
             enemyState = EnemyState.CHASE;
         }
-        /*else if(!FoundPlayer())
-        {
-            enemyState = EnemyState.PATROL;
-        }*/
+        
         //Debug.Log(enemyState);
 
 
@@ -303,11 +300,11 @@ public class NewZombieMovement : MonoBehaviour
     }
 
     //»æ»­Ñ²Âß·¶Î§
-    private void OnDrawGizmosSelected()
+    /*private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
         Gizmos.DrawWireSphere(transform.position, sightRadius);
-    }
+    }*/
 
     //ÅÐ¶Ï¹¥»÷Ä¿±êÊÇ·ñÔÚ¹¥»÷·¶Î§
     bool TargetInAttackRange()
@@ -317,18 +314,17 @@ public class NewZombieMovement : MonoBehaviour
             return Vector3.Distance(transform.position, attackTarget.transform.position) <= characterStats.attackData.attackRange;
         else
             return false;
-
     }
 
     void Hit()
     {
-
         if (attackTarget != null)
         {
             var targetStats = attackTarget.GetComponent<CharacterStats>();
+            //Ôì³ÉÉËº¦
             targetStats.TakeDamage(characterStats, targetStats);
+            //¸üÐÂÍæ¼ÒÑªÁ¿
             playerHealthImage.fillAmount = (float)targetStats.CurrentHealth / targetStats.MaxHealth;
         }
-
     }
 }

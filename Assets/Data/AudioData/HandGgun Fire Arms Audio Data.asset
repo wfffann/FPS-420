@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef95cdf9fa5f2914cbfac9445c0c020f, type: 3}
+  m_Name: HandGgun Fire Arms Audio Data
+  m_EditorClassIdentifier: 
+  shootingAudioClip: {fileID: 8300000, guid: 2203773368e4340d98c114f55c2dd7fd, type: 3}
+  reloadLeft: {fileID: 8300000, guid: b0d51244fd32fc647960320540b32f66, type: 3}
+  reloadOutOf: {fileID: 8300000, guid: fee3a21f251a4914cabce25b13e7d2a8, type: 3}

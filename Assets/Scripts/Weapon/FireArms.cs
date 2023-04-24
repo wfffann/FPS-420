@@ -7,7 +7,7 @@ namespace Scripts.Weapon
     public abstract class FireArms : MonoBehaviour
     {
         //组件
-        public GameObject bulletImpactPrefab;
+        public List<GameObject> bulletImpactPrefabs;
 
         //特效
         public Transform muzzlePoint;
@@ -17,6 +17,12 @@ namespace Scripts.Weapon
         public ParticleSystem casingParticle;
 
         public GameObject bulletPrefab;
+
+        public ParticleSystem smokePuff;
+
+        //光效
+        public Light light;
+
 
         //子弹
         public int ammoInMag = 30;
@@ -194,9 +200,8 @@ namespace Scripts.Weapon
         {
             while (true)
             {
-                
                 isRealoding = true;
-
+                
                 yield return null;
                 //获取第三层动画机信息
                 gunStateInfo = gunAnimator.GetCurrentAnimatorStateInfo(2);
@@ -230,10 +235,6 @@ namespace Scripts.Weapon
         {
             rigoutScopeInfo = _scopeInfo;
         }
-
-
-
-
 
         [System.Serializable]
         public class ScopeInfo

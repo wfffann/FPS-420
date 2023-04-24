@@ -11,14 +11,16 @@ public class Bullet : MonoBehaviour
     public CharacterStats characterStats;
 
     //特效
-    public GameObject impactPrefab;
-
+    //public GameObject impactPrefab;
+    public List<GameObject> impactPrefabs;
+    
     //子弹数据
     public float bulletSpeed;
     private Vector3 prevPosition;
 
     //音效
     public ImpactAudioData impactAudioData;
+
 
     private void Start()
     {
@@ -30,13 +32,18 @@ public class Bullet : MonoBehaviour
 
     private void Update()
     {
+        //更新上一帧子弹的位置
         prevPosition = bulletTransform.position;
+        //子弹位置的更新
         bulletTransform.Translate(0, 0, bulletSpeed * Time.deltaTime);
+        //从子弹上一帧到下一帧发射射线检测期间碰撞的信息 
         if (Physics.Raycast(prevPosition,
                 (bulletTransform.position - prevPosition).normalized,
                 out RaycastHit tmp_Hit,
                 (bulletTransform.position - prevPosition).magnitude))
         {
+
+            
 
             //如果打中的是僵尸
             if (tmp_Hit.collider.gameObject.CompareTag("Zombie"))
@@ -45,15 +52,24 @@ public class Bullet : MonoBehaviour
                 BulletTakeDamage(characterStats, tmp_Hit);
                 //Debug.Log("打中了Zombie！");
             }
-
             //如果打中了Player
-            else if (tmp_Hit.collider.gameObject.CompareTag("Player"))
+            if (tmp_Hit.collider.gameObject.CompareTag("Player"))
             {
                 BulletTakeDamage(characterStats, tmp_Hit);
-                Debug.Log("Enemy打中了Player！");
+                //Debug.Log("Enemy打中了Player！");
             }
 
-            var tmp_BulletImpact =  Instantiate(impactPrefab, tmp_Hit.point, Quaternion.LookRotation(tmp_Hit.normal, Vector3.up));
+            //var tmp_BulletImpact =  Instantiate(impactPrefab, tmp_Hit.point, Quaternion.LookRotation(tmp_Hit.normal, Vector3.up));
+            //寻找BulletImpact弹孔特效
+
+            foreach (var tmp_Impact in impactPrefabs)
+            {
+                //Debug.Log("正在寻找特效");
+                if (tmp_Impact.transform.gameObject.tag == tmp_Hit.collider.gameObject.tag)
+                {
+                    Instantiate(tmp_Impact, tmp_Hit.point, Quaternion.LookRotation(tmp_Hit.normal, Vector3.up));
+                }
+            }
 
             //寻找Tag的碰撞音效
             var tmp_TagsWithAudio = impactAudioData.impactTagsWithAudios.Find((_audioData) => { return _audioData.Tag.Equals(tmp_Hit.collider.tag); });
@@ -69,7 +85,7 @@ public class Bullet : MonoBehaviour
             }
 
 
-            Destroy(tmp_BulletImpact, 3);
+            //Destroy(tmp_BulletImpact, 3);
             Destroy(transform.gameObject);
         }
         

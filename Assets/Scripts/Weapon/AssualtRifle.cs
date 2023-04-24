@@ -9,6 +9,9 @@ namespace Scripts.Weapon
     {
         private IEnumerator reloadAmmoCheckerCoroutine;
         private FPMouseLook mouseLook;
+        public GameObject smallCasingPrefab;
+        public GameObject bigCasingPrefab;
+
 
         protected override void Awake()
         {
@@ -58,11 +61,18 @@ namespace Scripts.Weapon
         protected override void Shooting()
         {
             //Debug.Log("Shoting!");
+            //射击的条件
             if (currentAmmo <= 0) return;
-            if (!IsAllowShooting()) return;
+            if (!IsAllowShooting() || isRealoding || FPCharacterControllerMovement.Instance.isRunning) return;
 
             //子弹数量
             currentAmmo -= 1;
+
+            //弹匣没有子弹的动画
+            if(currentAmmo <= 0)
+            {
+                WeaponManager.Instance.carriedWeapon.gunAnimator.SetBool("OutOfAmmo", true);
+            }
 
             //动画层的选择
             gunAnimator.Play("Fire", isAiming ? 1 : 0, 0);
@@ -77,9 +87,15 @@ namespace Scripts.Weapon
             //子弹
             CreateBullet();
 
-            //弹壳
-            casingParticle.Play();
+            //烟雾
+            smokePuff.Play();
 
+            //光效
+            StartCoroutine(Light());
+
+            //创建弹壳的实例以及协程音效
+            CreatCasing();
+            
             //后坐力
             mouseLook.FirngForTest();
 
@@ -87,9 +103,25 @@ namespace Scripts.Weapon
             lastFireTime = Time.time;
         }
 
+        //实例化弹壳(自身带有音效的协程
+        protected void CreatCasing()
+        {
+            if(WeaponManager.Instance.carriedWeapon == WeaponManager.Instance.mainWeapon)
+            {
+                Instantiate(bigCasingPrefab, casingPoint.position, casingPoint.rotation);
+            }
+            else
+            {
+                Instantiate(smallCasingPrefab, casingPoint.position, casingPoint.rotation);
+            }
+        }
+
         //换弹
         protected override void Reload()
-        {
+        {   
+            //替换动画
+            WeaponManager.Instance.carriedWeapon.gunAnimator.SetBool("OutOfAmmo", false);
+
             //更新动画层的权重
             gunAnimator.SetLayerWeight(2, 1);
 
@@ -127,7 +159,8 @@ namespace Scripts.Weapon
             //tmp_BulletRigidbody.velocity = tmp_Bullet.transform.forward * 100f;
 
             //在这个脚本获取有利于替换和管理
-            tmp_BulletScript.impactPrefab = bulletImpactPrefab;
+            tmp_BulletScript.impactPrefabs = bulletImpactPrefabs;
+
             tmp_BulletScript.impactAudioData = impactAudioData;
             tmp_BulletScript.bulletSpeed = 100f;
 
@@ -139,8 +172,15 @@ namespace Scripts.Weapon
             }
         }
 
+        //协程延时灯光
+        private IEnumerator Light()
+        {   
+            light.transform.gameObject.SetActive(true);
 
-        
+            yield return new WaitForSeconds(Random.Range(0.05f, 0.1f));
+
+            light.transform.gameObject.SetActive(false);
+        }
 
         
     }

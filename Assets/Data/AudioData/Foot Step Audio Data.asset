@@ -40,16 +40,16 @@ MonoBehaviour:
     - {fileID: 8300000, guid: b632dbfd31dbbe1479f67126392d2221, type: 3}
     - {fileID: 8300000, guid: 77b0958831ad0c449bf6166b83729680, type: 3}
     - {fileID: 8300000, guid: 083f3c2f1983dd8419a9336eef471567, type: 3}
-    sprintingDelay: 0.2
-    Delay: 0.3
-    crouchingDealy: 0.4
+    sprintingDelay: 0.3
+    Delay: 0.4
+    crouchingDealy: 0.5
   - Tag: dirt
     AudioClips:
     - {fileID: 8300000, guid: 95b2a5a5cf7293b459ed9f7b70358ebb, type: 3}
     - {fileID: 8300000, guid: 207fbca36c5967245bb0a47fd5ec0fab, type: 3}
-    sprintingDelay: 0.2
-    Delay: 0.3
-    crouchingDealy: 0.4
+    sprintingDelay: 0.3
+    Delay: 0.4
+    crouchingDealy: 0.5
   - Tag: glass
     AudioClips:
     - {fileID: 8300000, guid: 37cf78e8b5ae2914e85409460f9f10d5, type: 3}
@@ -64,16 +64,16 @@ MonoBehaviour:
     - {fileID: 8300000, guid: bc262e8f0cbcbf340b9f6366654551a4, type: 3}
     - {fileID: 8300000, guid: 75a50bc783272b6438f99130f8e3bd7f, type: 3}
     - {fileID: 8300000, guid: 1cff6e7f344d66c4d8816c0688660686, type: 3}
-    sprintingDelay: 0.2
-    Delay: 0.3
-    crouchingDealy: 0.4
+    sprintingDelay: 0.3
+    Delay: 0.4
+    crouchingDealy: 0.5
   - Tag: grass
     AudioClips:
     - {fileID: 8300000, guid: a32bce817feae014bb366887ae7f9f67, type: 3}
     - {fileID: 8300000, guid: cfed1eac83b1eee45acab81d2622107a, type: 3}
-    sprintingDelay: 0.2
-    Delay: 0.3
-    crouchingDealy: 0.4
+    sprintingDelay: 0.3
+    Delay: 0.4
+    crouchingDealy: 0.5
   - Tag: gravel
     AudioClips:
     - {fileID: 8300000, guid: f43ed21d73d428a4d920790872518c1b, type: 3}
@@ -88,13 +88,11 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 897e16acd10b46e4f871e1dd59e85278, type: 3}
     - {fileID: 8300000, guid: ce6412b62892baa49b5c48bee41ed559, type: 3}
     - {fileID: 8300000, guid: 974765112c9d38442a3cd16dba4b4053, type: 3}
-    sprintingDelay: 0.2
-    Delay: 0.3
-    crouchingDealy: 0.4
+    sprintingDelay: 0.3
+    Delay: 0.4
+    crouchingDealy: 0.5
   - Tag: metal
     AudioClips:
-    - {fileID: 8300000, guid: ea67bf6bfe9b3e24d92442ccccf4c3ef, type: 3}
-    - {fileID: 8300000, guid: 5c5cfad5a59cf784a890dbd4e027c827, type: 3}
     - {fileID: 8300000, guid: 1c8bccea2544d1e46aee29dff75e514a, type: 3}
     - {fileID: 8300000, guid: fb89907b6fc08074e86b3c8ff4f6ea21, type: 3}
     - {fileID: 8300000, guid: 09a4be779d12d524eacb8f0e0e89734f, type: 3}
@@ -107,18 +105,18 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 84792a224b7a9d64cae6d6ced67779a8, type: 3}
     - {fileID: 8300000, guid: 25e5a565b93b92143a68a682e6e2ee77, type: 3}
     - {fileID: 8300000, guid: 65a448bc76f4b784ba8e2ed8929d5818, type: 3}
-    sprintingDelay: 0.2
-    Delay: 0.3
-    crouchingDealy: 0.4
+    sprintingDelay: 0.3
+    Delay: 0.4
+    crouchingDealy: 0.5
   - Tag: rock
     AudioClips:
     - {fileID: 8300000, guid: f375287431338db43bb2e1d7be947a45, type: 3}
     - {fileID: 8300000, guid: 93c0a665050c2b040940f960be62c299, type: 3}
     - {fileID: 8300000, guid: 9664befccbc5ca4489872dd49225a048, type: 3}
     - {fileID: 8300000, guid: 410ad3571d36ef040802d5893cca3630, type: 3}
-    sprintingDelay: 0.2
-    Delay: 0.3
-    crouchingDealy: 0.4
+    sprintingDelay: 0.3
+    Delay: 0.4
+    crouchingDealy: 0.5
   - Tag: snow
     AudioClips:
     - {fileID: 8300000, guid: 0c3b51e0dbdf01941b91098e5ce650eb, type: 3}
@@ -133,9 +131,9 @@ MonoBehaviour:
     - {fileID: 8300000, guid: bb9f67636a4aa684195d5f0da11dcf3b, type: 3}
     - {fileID: 8300000, guid: 5dd7f88e7eabf064b91ec22135d44f91, type: 3}
     - {fileID: 8300000, guid: 971d83e6580295e4fa2e593c8c7201f2, type: 3}
-    sprintingDelay: 0.2
-    Delay: 0.3
-    crouchingDealy: 0.4
+    sprintingDelay: 0.3
+    Delay: 0.4
+    crouchingDealy: 0.5
   - Tag: water
     AudioClips:
     - {fileID: 8300000, guid: d323f962cb9a771429839fd692c4a1d4, type: 3}
@@ -146,9 +144,9 @@ MonoBehaviour:
     - {fileID: 8300000, guid: 5513cd6750bb75b44a1d8d633b607d4d, type: 3}
     - {fileID: 8300000, guid: 368650ba2c2fece408e54ccd8de96336, type: 3}
     - {fileID: 8300000, guid: e54534ca0eb7b644a91b71f40fa3c3f8, type: 3}
-    sprintingDelay: 0.2
-    Delay: 0.3
-    crouchingDealy: 0.4
+    sprintingDelay: 0.3
+    Delay: 0.4
+    crouchingDealy: 0.5
   - Tag: wood
     AudioClips:
     - {fileID: 8300000, guid: a419eb06472c83845b41b59bc20f0197, type: 3}
@@ -163,6 +161,6 @@ MonoBehaviour:
     - {fileID: 8300000, guid: dd8994018d37d834a9ca298fc0c0c5d8, type: 3}
     - {fileID: 8300000, guid: c9a64ebe05e584445b20423794d8c2e4, type: 3}
     - {fileID: 8300000, guid: 7f8db19fe56fe2a459fb4b2d4e8fd382, type: 3}
-    sprintingDelay: 0.2
-    Delay: 0.3
-    crouchingDealy: 0.4
+    sprintingDelay: 0.3
+    Delay: 0.4
+    crouchingDealy: 0.5

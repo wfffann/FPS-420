@@ -9,6 +9,7 @@ public class CharacterStats : MonoBehaviour
     public CharacterData_SO characterData;
     public AttackData_SO attackData;
 
+    //Zombie的血量
     public Image enemyHealth;
 
 
@@ -47,6 +48,7 @@ public class CharacterStats : MonoBehaviour
     {
         int demage = Random.Range(attacker.attackData.minDamage, attacker.attackData.maxDemage);
         CurrentHealth = CurrentHealth - demage;
+        //血量下限
         if (CurrentHealth < 0) CurrentHealth = 0;
     }
 

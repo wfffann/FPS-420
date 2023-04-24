@@ -43,6 +43,7 @@ public class FPMouseLook : MonoBehaviour
         CalculateRecoilOffset();
 
         //TODO：后坐力方向固定了？
+        //后坐力的影响
         cameraRotation.x -= currentRecoil.x;
         cameraRotation.y += currentRecoil.y;
 

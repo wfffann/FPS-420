@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79bf038bb5e2cec42a3e2a53204b3202, type: 3}
   m_Name: EnemyAttackData
   m_EditorClassIdentifier: 
-  attackRange: 0
+  attackRange: 10
   minDamage: 10
   maxDemage: 15
   coolDown: 1

@@ -102,6 +102,7 @@
     <Compile Include="Assets\Package\Low Poly FPS Pack\Components\Scripts\Explosions_&amp;_Impacts\ExplosionScript.cs" />
     <Compile Include="Assets\Package\StylizedProjectilePack1\WebDemo\scripts\ExplodingProjectile.cs" />
     <Compile Include="Assets\Package\Low Poly FPS Pack\Components\Scripts\Explosions_&amp;_Impacts\ImpactScript.cs" />
+    <Compile Include="Assets\Scripts\Enemy\EnemyMovment.cs" />
     <Compile Include="Assets\Scripts\Player\FootStepAudioData.cs" />
     <Compile Include="Assets\Scripts\CharacterStates\CharacterStats.cs" />
     <Compile Include="Assets\Package\Low Poly FPS Pack\Components\Scripts\FPSController\FpsControllerLPFP.cs" />

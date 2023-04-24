@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3391969281513573214}
   - component: {fileID: -5826493062726979664}
   - component: {fileID: 7217032810695642971}
+  - component: {fileID: -1572590768654340932}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -155,7 +156,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   characterStats: {fileID: 7217032810695642971}
-  impactPrefab: {fileID: 0}
+  bloodImpactPrefab: {fileID: 1036925697551712, guid: a845e59c374ae0240812749e46f13033, type: 3}
+  metalImpactPrefab: {fileID: 1133313454119596, guid: 79927c6543a058b4383885fac101fe2e, type: 3}
+  dirtImpactPrefab: {fileID: 1186432685672840, guid: 7178009a59b47d44385e833bda688e76, type: 3}
+  concreteImpactPrefab: {fileID: 1067471869909948, guid: 5e02303289b3c494e8e185be0fbbd405, type: 3}
   bulletSpeed: 0
   impactAudioData: {fileID: 0}
 --- !u!114 &7217032810695642971
@@ -174,3 +178,19 @@ MonoBehaviour:
   characterData: {fileID: 0}
   attackData: {fileID: 11400000, guid: 88d8fc9a58f7c9e42a51b42f08f87077, type: 2}
   enemyHealth: {fileID: 0}
+--- !u!54 &-1572590768654340932
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7798057745763108684}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0

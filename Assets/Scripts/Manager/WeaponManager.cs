@@ -9,12 +9,11 @@ using static Scripts.Weapon.FireArms;
 
 public class WeaponManager : Singleton<WeaponManager>
 {
+    //枪械
     public FireArms mainWeapon;
     public FireArms secondaryWeapon;
 
-
-
-    private FireArms carriedWeapon;
+    public FireArms carriedWeapon;
     [SerializeField] private FPCharacterControllerMovement fPCharacterControllerMovement;
 
     private AnimatorStateInfo animatorStateInfo;
@@ -32,9 +31,16 @@ public class WeaponManager : Singleton<WeaponManager>
     //public bool isInspecting;
 
     //UI
-    //public GameObject crosshair;
-
+    public GameObject crosshair;
     public Text ammoCountText;
+    public List<Sprite> weaponSprites = new List<Sprite>();
+    public Image image;
+
+    //音效
+    public AudioSource audioSource;
+    public AudioClip takeOutClip;
+
+
 
     private void Start()
     {
@@ -55,11 +61,15 @@ public class WeaponManager : Singleton<WeaponManager>
 
         //清空子弹信息
         ammoCountText.text = "";
+
+        //清空图像
+        image.sprite = null;
     }
 
     private void Update()
     {
         
+
         //TODO：应该是有按键再发射出射线？
         //射线检测Items
         CheckItem();
@@ -92,14 +102,14 @@ public class WeaponManager : Singleton<WeaponManager>
         //瞄准
         if (Input.GetMouseButtonDown(1))
         {
-            //crosshair.SetActive(false);
+            crosshair.SetActive(false);
 
             carriedWeapon.Aiming(true);
 
         }
         if (Input.GetMouseButtonUp(1))
         {
-            //crosshair.SetActive(true);
+            crosshair.SetActive(true);
             carriedWeapon.Aiming(false);
         }
 
@@ -112,6 +122,7 @@ public class WeaponManager : Singleton<WeaponManager>
 
         }
 
+        //更新子弹数据
         UpdateAmmoText(carriedWeapon.GetCurrentAmmoreturn, carriedWeapon.GetCurrentMaxAmmoCarried);
     }
 
@@ -219,8 +230,9 @@ public class WeaponManager : Singleton<WeaponManager>
             if (mainWeapon == null) return;
             if (carriedWeapon == mainWeapon) return;
             
+            //替换为副武器
             if (carriedWeapon.gameObject.activeInHierarchy)
-            {
+            {   
                 StartWaitingForHoisterCoroutine();
                 carriedWeapon.gunAnimator.SetTrigger("Hoister");
             }
@@ -239,6 +251,7 @@ public class WeaponManager : Singleton<WeaponManager>
             if (secondaryWeapon == null) return;
             if (carriedWeapon == secondaryWeapon) return;
 
+            //替换为主武器
             if (carriedWeapon.gameObject.activeInHierarchy)
             {
                 StartWaitingForHoisterCoroutine();
@@ -294,10 +307,11 @@ public class WeaponManager : Singleton<WeaponManager>
 
         carriedWeapon = _targetWeapon;
 
-        /*//更新武器的Icon
+        //更新武器的Icon
         UpdateWeaponSprite();
 
-        PlayTakeOutAudio(audioSource);*/
+        //拿出枪械的音效
+        PlayTakeOutAudio(audioSource);
 
         //激活目标的武器
         carriedWeapon.gameObject.SetActive(true);
@@ -309,4 +323,29 @@ public class WeaponManager : Singleton<WeaponManager>
     {
         ammoCountText.text = _currentAmmo + "/" + _currentMaxAmmo;
     }
+
+    //更新武器的Icon
+    private void UpdateWeaponSprite()
+    {
+        foreach (var tmp_Sprite in weaponSprites)
+        {
+            if (carriedWeapon.transform.name.CompareTo(tmp_Sprite.name) == 0)
+            {
+                if (!image.gameObject.activeInHierarchy) image.gameObject.SetActive(true);
+
+                image.sprite = tmp_Sprite;
+            }
+        }
+    }
+
+    //拿出枪械的音效
+    private void PlayTakeOutAudio(AudioSource audioSource)
+    {
+        audioSource.clip = takeOutClip;
+        audioSource.Play();
+    }
+
+    
+
+
 }

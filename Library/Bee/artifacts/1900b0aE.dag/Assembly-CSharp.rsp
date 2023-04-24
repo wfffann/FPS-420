@@ -397,6 +397,7 @@
 "Assets/Scripts/CharacterStates/AttackData_SO.cs"
 "Assets/Scripts/CharacterStates/CharacterData_SO.cs"
 "Assets/Scripts/CharacterStates/CharacterStats.cs"
+"Assets/Scripts/Enemy/EnemyMovment.cs"
 "Assets/Scripts/Items/AttachmentItem.cs"
 "Assets/Scripts/Items/BaseItem.cs"
 "Assets/Scripts/Items/FirearmsItem.cs"
