@@ -63,6 +63,7 @@
     <Compile Include="Assets\Scripts\Player\FPMouseLook.cs" />
     <Compile Include="Assets\Package\Low Poly FPS Pack\Components\Demo_Scene_Components\Scripts\ExplosiveBarrelScript.cs" />
     <Compile Include="Assets\Scripts\CharacterStates\CharacterData_SO.cs" />
+    <Compile Include="Assets\Scripts\SinglePlayer\Box\Box.cs" />
     <Compile Include="Assets\Scripts\Camera\CameraSpringUtility.cs" />
     <Compile Include="Assets\Package\Low Poly FPS Pack\Components\Scripts\Casings_&amp;_Projectiles\CasingScript.cs" />
     <Compile Include="Assets\Scripts\Items\AttachmentItem.cs" />
@@ -73,7 +74,9 @@
     <Compile Include="Assets\Scripts\Weapon\Bullet.cs" />
     <Compile Include="Assets\Package\Low Poly FPS Pack\Components\Scripts\Bullet\BulletScript.cs" />
     <Compile Include="Assets\Scripts\Weapon\FireArms.cs" />
+    <Compile Include="Assets\Scripts\SinglePlayer\Trap\Trapmechanism.cs" />
     <Compile Include="Assets\Scripts\CharacterStates\AttackData_SO.cs" />
+    <Compile Include="Assets\Scripts\SinglePlayer\Door\DoorOpen.cs" />
     <Compile Include="Assets\Package\Low Poly FPS Pack\Third_Person_Character\Components\Plane_Demo_Scene_Components\Scripts\PropellerRotateLPFP.cs" />
     <Compile Include="Assets\Package\StylizedProjectilePack1\WebDemo\scripts\Projectile.cs" />
     <Compile Include="Assets\Package\StylizedProjectilePack1\scripts\particleColorChanger.cs" />
@@ -106,6 +109,7 @@
     <Compile Include="Assets\Scripts\Player\FootStepAudioData.cs" />
     <Compile Include="Assets\Scripts\CharacterStates\CharacterStats.cs" />
     <Compile Include="Assets\Package\Low Poly FPS Pack\Components\Scripts\FPSController\FpsControllerLPFP.cs" />
+    <Compile Include="Assets\Scripts\SinglePlayer\Trap\Trap.cs" />
     <Compile Include="Assets\Package\Low Poly FPS Pack\Third_Person_Character\Components\Plane_Demo_Scene_Components\Scripts\PlaneDoorLightsLPFP.cs" />
     <Compile Include="Assets\Scripts\Player\FPCharacterControllerMovement.cs" />
     <Compile Include="Assets\Package\StylizedProjectilePack1\scripts\destroyMe.cs" />

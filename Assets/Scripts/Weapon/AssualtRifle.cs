@@ -68,10 +68,14 @@ namespace Scripts.Weapon
             //子弹数量
             currentAmmo -= 1;
 
-            //弹匣没有子弹的动画
-            if(currentAmmo <= 0)
+            //只有手枪才有的动画
+            if (WeaponManager.Instance.carriedWeapon == WeaponManager.Instance.secondaryWeapon)
             {
-                WeaponManager.Instance.carriedWeapon.gunAnimator.SetBool("OutOfAmmo", true);
+                //弹匣没有子弹的动画
+                if (currentAmmo <= 0)
+                {
+                    WeaponManager.Instance.carriedWeapon.gunAnimator.SetBool("OutOfAmmo", true);
+                }
             }
 
             //动画层的选择
@@ -119,8 +123,12 @@ namespace Scripts.Weapon
         //换弹
         protected override void Reload()
         {   
-            //替换动画
-            WeaponManager.Instance.carriedWeapon.gunAnimator.SetBool("OutOfAmmo", false);
+            if(WeaponManager.Instance.carriedWeapon == WeaponManager.Instance.secondaryWeapon)
+            {
+                //替换动画
+                WeaponManager.Instance.carriedWeapon.gunAnimator.SetBool("OutOfAmmo", false);
+            }
+            
 
             //更新动画层的权重
             gunAnimator.SetLayerWeight(2, 1);
@@ -155,14 +163,17 @@ namespace Scripts.Weapon
             //子弹的散射（圆周内
             tmp_Bullet.transform.eulerAngles += CalculateSpreadOffset();
 
-            var tmp_BulletScript = tmp_Bullet.AddComponent<Bullet>();
+            /*var tmp_BulletScript = tmp_Bullet.AddComponent<Bullet>();
             //tmp_BulletRigidbody.velocity = tmp_Bullet.transform.forward * 100f;
 
             //在这个脚本获取有利于替换和管理
             tmp_BulletScript.impactPrefabs = bulletImpactPrefabs;
 
             tmp_BulletScript.impactAudioData = impactAudioData;
-            tmp_BulletScript.bulletSpeed = 100f;
+            tmp_BulletScript.bulletSpeed = 100f;*/
+
+            tmp_Bullet.GetComponent<Bullet>().impactAudioData = impactAudioData;
+            tmp_Bullet.GetComponent<Bullet>().bulletSpeed = 100;
 
 
             //销魂对象

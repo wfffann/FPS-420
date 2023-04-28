@@ -7,7 +7,7 @@ namespace Scripts.Weapon
     public abstract class FireArms : MonoBehaviour
     {
         //组件
-        public List<GameObject> bulletImpactPrefabs;
+        //public List<GameObject> bulletImpactPrefabs;
 
         //特效
         public Transform muzzlePoint;

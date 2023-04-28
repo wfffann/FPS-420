@@ -19,6 +19,8 @@ public class WeaponManager : Singleton<WeaponManager>
     private AnimatorStateInfo animatorStateInfo;
     private IEnumerator waitingForHoisterEndCoroutine;
 
+    //private IEnumerator waitForHolsterEndCoroutine;
+
 
     //Item
     public Transform worldCameraTransform;
@@ -133,8 +135,6 @@ public class WeaponManager : Singleton<WeaponManager>
         bool tmp_IsItem = Physics.Raycast(worldCameraTransform.position, worldCameraTransform.forward,
             out RaycastHit tmp_RaycastHit, raycastMaxDistance, checkItemLayerMask);
 
-
-
         if (tmp_IsItem)
         {
             if (Input.GetKeyDown(KeyCode.E))
@@ -147,6 +147,7 @@ public class WeaponManager : Singleton<WeaponManager>
                     PickUpWeapon(tmp_BaseItem);
                     PickUpAttachment(tmp_BaseItem);
 
+                    //TODO：如果此时有武器了，交换武器，扔出被交换的武器，摧毁交换的武器
                     //销毁已经捡拾的Item
                     DestroyTargetItem(tmp_RaycastHit.transform.gameObject);
                 }
@@ -239,6 +240,7 @@ public class WeaponManager : Singleton<WeaponManager>
             else
             {
                 SetUpCarriedWeapon(mainWeapon);
+                //StartWaitForHolsterCoroutine();
             }
 
             //PlayTakeOutAudio(audioSource);
@@ -260,6 +262,7 @@ public class WeaponManager : Singleton<WeaponManager>
             else
             {
                 SetUpCarriedWeapon(secondaryWeapon);
+                //StartWaitForHolsterCoroutine();
             }
 
             //PlayTakeOutAudio(audioSource);
@@ -274,16 +277,25 @@ public class WeaponManager : Singleton<WeaponManager>
         StartCoroutine(waitingForHoisterEndCoroutine);
     }
 
-    //等待放下枪的动画结束的协程
+    /*private void StartWaitForHolsterCoroutine()
+    {
+        if (waitForHolsterEndCoroutine == null)
+            waitForHolsterEndCoroutine = WaitForHolsterEnd();
+        StartCoroutine(waitForHolsterEndCoroutine);
+    }
+*/
+
+    //等待放下枪的动画结束的协程(包含了换枪的逻辑
     private IEnumerator WaitingForHoisterEnd()
     {
         while (true)
         {
             AnimatorStateInfo tmp_AnimatorStateInfo = carriedWeapon.gunAnimator.GetCurrentAnimatorStateInfo(0);
             if (tmp_AnimatorStateInfo.IsTag("Hoister"))
-            {   
+            {
+                //Debug.Log("检测动画完成度中");
                 //检测动画完成度
-                if (tmp_AnimatorStateInfo.normalizedTime >= 0.9f)
+                if (tmp_AnimatorStateInfo.normalizedTime >= 0.95f)
                 {
                     var tmp_TargetWeapon = carriedWeapon == mainWeapon ? secondaryWeapon : mainWeapon;
                     SetUpCarriedWeapon(tmp_TargetWeapon);
@@ -294,6 +306,26 @@ public class WeaponManager : Singleton<WeaponManager>
             yield return null;
         }
     }
+
+    /*private IEnumerator WaitForHolsterEnd()
+    {
+        while (true)
+        {
+            AnimatorStateInfo tmp_AnimatorStateInfo = carriedWeapon.gunAnimator.GetCurrentAnimatorStateInfo(0);
+            if (tmp_AnimatorStateInfo.IsTag("Hoister"))
+            {
+                Debug.Log("检测动画完成度中");
+                //检测动画完成度
+                if (tmp_AnimatorStateInfo.normalizedTime >= 0.90f)
+                {
+                    
+                    yield break;
+                }
+            }
+            yield return null;
+        }
+    }*/
+
 
     //装配目标武器
     private void SetUpCarriedWeapon(FireArms _targetWeapon)

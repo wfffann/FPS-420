@@ -9522,7 +9522,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3365013434731123291}
   - component: {fileID: 3403103836984329969}
-  - component: {fileID: 3401495351482516043}
   - component: {fileID: 3198890709587445009}
   - component: {fileID: 3198231630315120211}
   m_Layer: 0
@@ -9760,19 +9759,6 @@ MonoBehaviour:
       m_NumAlphaKeys: 4
   applyChanges: 0
   Keep_applyChanges: 0
---- !u!114 &3401495351482516043
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3360919944858997239}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a895231490da6545890b1e1794f8704, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  deathtimer: 5
 --- !u!199 &3198890709587445009
 ParticleSystemRenderer:
   serializedVersion: 6

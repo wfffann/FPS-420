@@ -114,11 +114,11 @@ public class NewZombieMovement : MonoBehaviour
             case EnemyState.GUARD:
                 break;
             case EnemyState.PATROL:
-
+                isGuard = true;
                 //巡逻速度
-                enemyAgent.speed = speed * 0.5f;
+                /*enemyAgent.speed = speed * 0.5f;*/
 
-                //判断是否到了随机巡逻点
+                /*//判断是否到了随机巡逻点
                 if (Vector3.Distance(wayPoint, transform.position) <= enemyAgent.stoppingDistance)
                 {
                     //观察状态 -- 计时器的时间
@@ -137,13 +137,13 @@ public class NewZombieMovement : MonoBehaviour
                 else
                 {
                     //没有走到随机巡逻的点
-                    /*Debug.Log("正在走到巡逻点中");
+                    *//*Debug.Log("正在走到巡逻点中");
                     Debug.Log("我与wayPoint点的距离为：" + Convert.ToString(Vector3.Distance(wayPoint, transform.position) <= enemyAgent.stoppingDistance));
-                    Debug.Log("我与wayPoint点的距离为：" + Convert.ToString(Vector3.Distance(wayPoint, transform.position)));*/
+                    Debug.Log("我与wayPoint点的距离为：" + Convert.ToString(Vector3.Distance(wayPoint, transform.position)));*//*
 
                     isGuard = false;
                     enemyAgent.destination = wayPoint;
-                }
+                }*/
                 break;
 
             case EnemyState.CHASE:

@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public enum EnemyState { GUARD, PATROL, CHASE, DEAD }
+public enum EnemyState { GUARD, PATROL, CHASE, DEAD, Attack }
 public class ZombieMovement : MonoBehaviour
 {
     //×é¼þ
@@ -97,6 +97,12 @@ public class ZombieMovement : MonoBehaviour
             enemyAgent.isStopped = false;
             enemyState = EnemyState.CHASE;
         }
+
+
+
+
+
+
         /*else if(!FoundPlayer())
         {
             enemyState = EnemyState.PATROL;
@@ -298,6 +304,14 @@ public class ZombieMovement : MonoBehaviour
             playerHealthImage.fillAmount = (float)targetStats.CurrentHealth / targetStats.MaxHealth;
         }
 
+    }
+
+
+    private float dotThreshol = 0.5f;
+    private bool IsFindPlayerInSector()
+    {
+        float dot = Vector3.Dot(transform.position, attackTarget.transform.position - transform.position);
+        return dot >= dotThreshol;
     }
 
 }
