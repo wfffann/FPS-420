@@ -27,6 +27,8 @@ public class FPMouseLook : MonoBehaviour
         currentRecoil = recoilRange;
         cameraSpring = GetComponentInChildren<CameraSpring>();
 
+        //cameraTransform.rotation = Quaternion.Euler(0, 0, 0);
+
         Cursor.lockState = CursorLockMode.Locked;
     }
 

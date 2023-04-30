@@ -11,6 +11,7 @@ namespace Scripts.Items
         {
             Firearms,
             Attachment,
+            Supply,
             Others
         }
 

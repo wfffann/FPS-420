@@ -1,5 +1,5 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,9 +12,13 @@ public class CharacterStats : MonoBehaviour
     //Zombie的血量
     public Image enemyHealth;
 
+    
+    
 
     private void Awake()
     {
+        //redImageCroutinue = Flash();
+
         //拿到一份copy的数据
         if (templateData != null)
         {
@@ -46,8 +50,13 @@ public class CharacterStats : MonoBehaviour
     //造成伤害
     public void TakeDamage(CharacterStats attacker, CharacterStats defener)
     {
-        int demage = Random.Range(attacker.attackData.minDamage, attacker.attackData.maxDemage);
+        int demage = UnityEngine.Random.Range(attacker.attackData.minDamage, attacker.attackData.maxDemage);
         CurrentHealth = CurrentHealth - demage;
+
+        //StartInJuriedWithScreenCroutinue();
+        //StartCoroutine(Flash());
+        //StartFlashCourtinue();
+
         //血量下限
         if (CurrentHealth < 0) CurrentHealth = 0;
     }
@@ -58,4 +67,11 @@ public class CharacterStats : MonoBehaviour
         enemyHealth.fillAmount = (float)CurrentHealth / MaxHealth;
     }
 
+
+    
+   
+
+
+
+    
 }

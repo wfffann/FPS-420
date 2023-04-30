@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
@@ -43,12 +44,30 @@ public class NewZombieMovement : MonoBehaviour
     private bool isGuard;
     private bool isDead;
     private bool alreadyDied;
+    private int changeDir = 1;
+
+    //检测Player
+    Vector3 Center;
+    public float feelPlayerDistance;
+    public GameObject centerPoint;
+
+    public GameObject partolPointA;
+    public GameObject partolPointB;
+
+    private Vector3 originalPointA;
+    private Vector3 originalPointB;
 
     private void Awake()
     {
         enemyAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         characterStats = GetComponent<CharacterStats>();
+
+        Collider collider = gameObject.GetComponent<Collider>();
+        Center = collider.bounds.center;
+
+        
+
         //coll.GetComponent<CapsuleCollider>();
         originalPosition = transform.position;
 
@@ -72,11 +91,61 @@ public class NewZombieMovement : MonoBehaviour
 
         //攻击冷却时间
         lastAttackTime = characterStats.attackData.coolDown;
+
+        //存贮巡逻点原来的位置
+        if(partolPointA != null && partolPointB != null)
+        {
+            originalPointA = partolPointA.transform.position;
+
+            originalPointB = partolPointB.transform.position;
+        }
+        
+        
+
+        //enemyAgent.updateRotation = false;
     }
 
 
     private void FixedUpdate()
     {
+        //FoundPlayer();
+        /*// 定义一个变量来存储射线命中的信息
+        RaycastHit hit;
+
+        Vector3 localPosition = transform.InverseTransformPoint(transform.position);
+        // 将方向向量从世界坐标系转换为本地坐标系
+        Vector3 localDirection = transform.InverseTransformDirection(Vector3.forward);*/
+
+        /*// 发射一条从人物正前方发出的射线，长度为1个单位
+        if (Physics.Raycast(localPosition, transform.forward, out hit, 5f))
+        {
+            // 如果射线与某个碰撞体相交，则打印相交点的坐标和相交物体的名称
+            
+            Debug.Log("Hit point: " + hit.point);
+            Debug.Log("Hit object name: " + hit.collider.gameObject.name);
+        }*/
+
+
+        //Vector3 localPosition = transform.InverseTransformPoint(transform.position);
+        //Debug.DrawRay(localPosition, transform.forward, Color.blue);
+        //Debug.DrawRay(centerPoint.transform.position , transform.forward * sightRadius, Color.red);
+        /*if(attackTarget != null)
+        {
+            Debug.DrawRay(centerPoint.transform.position, attackTarget.transform.position - centerPoint.transform.position, Color.blue);
+        }*/
+        /*Debug.DrawLine(transform.position, new Vector3(transform.position.x + x, transform.position.y + y, transform.position.z + z), Color.red);
+        Debug.DrawLine(transform.localPosition, new Vector3(transform.localPosition.x + x, transform.localPosition.y + y, transform.localPosition.z + z), Color.blue);*/
+
+        //FoundPlayer();
+
+        /*if(attackTarget!= null)
+        {
+            Debug.DrawLine(transform.position, attackTarget.transform.position - transform.position, Color.red);
+        }*/
+
+        //Debug.DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y, transform.position.z + 5f),  Color.red);
+
+
         //判断是否死亡
         if (characterStats.CurrentHealth == 0)
             isDead = true;
@@ -93,12 +162,15 @@ public class NewZombieMovement : MonoBehaviour
 
     //敌人状态的切换
     void SwitchStates()
-    {
+    {   
+        //确认死亡（状态不能改变
         if (alreadyDied) return;
 
         //只有在非死亡状态
         if (isDead)
             enemyState = EnemyState.DEAD;
+
+        //发现玩家
         else if (FoundPlayer())
         {
             enemyAgent.isStopped = false;
@@ -114,7 +186,8 @@ public class NewZombieMovement : MonoBehaviour
             case EnemyState.GUARD:
                 break;
             case EnemyState.PATROL:
-                isGuard = true;
+                //isGuard = true;
+
                 //巡逻速度
                 /*enemyAgent.speed = speed * 0.5f;*/
 
@@ -144,6 +217,43 @@ public class NewZombieMovement : MonoBehaviour
                     isGuard = false;
                     enemyAgent.destination = wayPoint;
                 }*/
+
+
+                //两点之间进行巡逻(有些Zombie为站桩
+                enemyAgent.speed = speed * 0.5f;
+
+                if (partolPointA != null && partolPointB != null)
+                {
+                    if (changeDir == 1)
+                    {
+                        if (Vector3.Distance(transform.position, originalPointA) <= enemyAgent.stoppingDistance)
+                        {
+                            changeDir = 2;
+                        }
+                        else
+                        {
+                            enemyAgent.destination = originalPointA;
+
+                        }
+                    }
+                    else if (changeDir == 2)
+                    {
+                        if (Vector3.Distance(transform.position, originalPointB) <= enemyAgent.stoppingDistance)
+                        {
+                            changeDir = 1;
+                        }
+                        else
+                        {
+                            enemyAgent.destination = originalPointB;
+
+                        }
+                    }
+                }
+                else
+                {
+                    isGuard = true;
+                }
+
                 break;
 
             case EnemyState.CHASE:
@@ -157,8 +267,9 @@ public class NewZombieMovement : MonoBehaviour
                     enemyAgent.destination = attackTarget.transform.position;
                 }
 
+                //TODO：能否被拉脱的机制？
                 //如果被拉脱，则停在原地
-                if (!FoundPlayer())
+                /*if (!FoundPlayer())
                 {
                     //观察状态 -- 计时器的时间
                     if (remainLookAtTime2 > 0)
@@ -180,7 +291,7 @@ public class NewZombieMovement : MonoBehaviour
                         //更新计时器
                         remainLookAtTime2 = UnityEngine.Random.Range(0, lookAtTime);
                     }
-                }
+                }*/
 
                 //如果玩家在攻击范围内
                 if (TargetInAttackRange())
@@ -197,16 +308,19 @@ public class NewZombieMovement : MonoBehaviour
                         //Debug.Log("lastAttackTime:" + lastAttackTime);
                     }
                 }
+
                 break;
             case EnemyState.DEAD:
                 //直接关闭导航
                 enemyAgent.enabled = false;
 
+                //播放死亡动画
                 animator.SetBool("Dead", true);
-                Debug.Log("死亡动画！");
+                //Debug.Log("死亡动画！");
                 alreadyDied = true;
                 //coll.enabled = false;
 
+                //强制关闭Rigidbody
                 zombieRigidbody.Sleep();
 
                 //关闭血条
@@ -235,6 +349,7 @@ public class NewZombieMovement : MonoBehaviour
         }
     }*/
 
+    //动画的切换（基于Velocity -1D
     private void SwitchAnimation()
     {
         if (isGuard)
@@ -253,6 +368,7 @@ public class NewZombieMovement : MonoBehaviour
         }
     }
 
+    //攻击
     void ZombieAttack()
     {
         //再次判断是否在攻击范围内
@@ -264,18 +380,25 @@ public class NewZombieMovement : MonoBehaviour
         }
     }
 
-    //在范围内寻找玩家
+    //在范围内寻找玩家(sightRadius
     bool FoundPlayer()
     {
         //圆形内检测碰撞体
-        var colliders = Physics.OverlapSphere(transform.position, sightRadius);
+        var colliders = Physics.OverlapSphere(transform.position, feelPlayerDistance);
         foreach (var target in colliders)
         {
             if (target.CompareTag("Player"))
             {
                 //找到攻击目标
                 attackTarget = target.gameObject;
-                return true;
+                //Debug.Log("发现Player！");
+                //return true;
+
+                //Debug.Log("正在计算Zombie与Playerd 的点乘");
+                //发现Player玩家 后 再计算 点乘
+                float dot = Vector3.Dot(centerPoint.transform.forward.normalized, (attackTarget.transform.position - centerPoint.transform.position).normalized);
+                return dot >= dotThreshol;
+
             }
         }
 
@@ -283,6 +406,23 @@ public class NewZombieMovement : MonoBehaviour
         attackTarget = null;
         return false;
     }
+
+    //扇形视野内寻找玩家
+    private float dotThreshol = 0.5f;
+    private bool IsFindPlayerInSector()
+    {
+        if(attackTarget != null)
+        {
+            Debug.Log("正在计算Zombie与Playerd 的点乘");
+            float dot = Vector3.Dot(transform.forward, attackTarget.transform.position - transform.position);
+            return dot >= dotThreshol;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 
     //随机巡逻点
     void GetNewWayPoint()
@@ -316,15 +456,27 @@ public class NewZombieMovement : MonoBehaviour
             return false;
     }
 
+    //判断攻击目标是否在扇形的攻击范围
+    bool TargetInAttackRangeInSecor()
+    {
+        float dot = Vector3.Dot(centerPoint.transform.forward.normalized, (attackTarget.transform.position - centerPoint.transform.position).normalized);
+        return dot >= dotThreshol;
+    }
+
     void Hit()
     {
-        if (attackTarget != null)
+        if (attackTarget != null && TargetInAttackRangeInSecor())
         {
             var targetStats = attackTarget.GetComponent<CharacterStats>();
             //造成伤害
             targetStats.TakeDamage(characterStats, targetStats);
             //更新玩家血量
             playerHealthImage.fillAmount = (float)targetStats.CurrentHealth / targetStats.MaxHealth;
+
+            WeaponManager.Instance.StartFlashCourtinue();
         }
     }
+
+
+
 }

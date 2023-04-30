@@ -50,8 +50,10 @@ public class WeaponManager : Singleton<WeaponManager>
         //carriedWeapon = mainWeapon;
         /*//匹配枪对应的Animator
         fPCharacterControllerMovement.SetUpAnimator(carriedWeapon.gunAnimator);*/
-        
+
         //fPCharacterControllerMovement.SetUpAnimator(carriedWeapon.gunAnimator);
+
+        redImageCroutinue = Flash();
 
         //如果此时有主武器
         if (mainWeapon)
@@ -146,6 +148,7 @@ public class WeaponManager : Singleton<WeaponManager>
                     //拾取
                     PickUpWeapon(tmp_BaseItem);
                     PickUpAttachment(tmp_BaseItem);
+                    PickUpSupply(tmp_BaseItem);
 
                     //TODO：如果此时有武器了，交换武器，扔出被交换的武器，摧毁交换的武器
                     //销毁已经捡拾的Item
@@ -216,6 +219,44 @@ public class WeaponManager : Singleton<WeaponManager>
                 break;
         }
     }
+
+    //捡拾Supply类的道具箱
+    private void PickUpSupply(BaseItem _baseItem)
+    {
+        if(!(_baseItem is Supply tmp_Supply)) return;
+
+        switch (tmp_Supply.currentSupplyType)
+        {
+            case Supply.SupplyType.HealthSupply:
+                
+                transform.gameObject.GetComponent<CharacterStats>().CurrentHealth = 100;
+
+                //TODO:加血的音效
+
+                break;
+            case Supply.SupplyType.AmmoSupply:
+
+                //增加当前武器的弹药
+                if(Instance.carriedWeapon == mainWeapon)
+                {
+                    Instance.carriedWeapon.CurrentAmmo = 30;
+                    Instance.carriedWeapon.MaxAmmoCarried = 60;
+                }
+                else if(Instance.carriedWeapon == secondaryWeapon)
+                {
+                    Instance.carriedWeapon.CurrentAmmo = 7;
+                    Instance.carriedWeapon.MaxAmmoCarried = 21;
+                }
+
+                //TODO:加子弹的音效
+                
+                break;
+            case Supply.SupplyType.Other:
+                break;
+        }
+    }
+
+
 
     //Destroy TargetItem 拾取后的物品会被销毁
     private void DestroyTargetItem(GameObject _baseItem)
@@ -377,7 +418,60 @@ public class WeaponManager : Singleton<WeaponManager>
         audioSource.Play();
     }
 
-    
+
+    public Image redImage;
+    private IEnumerator redImageCroutinue;
+
+    //开始屏幕闪烁的协程
+    public void StartFlashCourtinue()
+    {
+        if (redImageCroutinue == null)
+        {
+            redImageCroutinue = Flash();
+            StartCoroutine(redImageCroutinue);
+        }
+        else
+        {
+            StartCoroutine(redImageCroutinue);
+            redImageCroutinue = null;
+            redImageCroutinue = Flash();
+            StartCoroutine(redImageCroutinue);
+        }
+    }
+
+    //人物受伤屏幕血色闪烁特效
+    private IEnumerator Flash()
+    {
+        float delayTime = 0.25f;
+
+        /*float targetAlpha = 25;
+
+        float changeTimes = changeAllTime / Time.deltaTime;
+        float nextChange = targetAlpha / changeTimes;*/
+
+        redImage.gameObject.SetActive(true);
+
+        // 淡入
+        while (redImage.color.a < 0.095f)
+        {
+            redImage.color = Color.Lerp(redImage.color, new Color(redImage.color.r, redImage.color.g, redImage.color.b, 0.1f), Time.deltaTime / delayTime);
+            yield return null;
+        }
+
+        redImage.color = new Color(redImage.color.r, redImage.color.g, redImage.color.b, 0.1f);
+
+
+
+        // 淡出
+        /*while (redImage.color.a > 0.05)
+        {
+            redImage.color = Color.Lerp(redImage.color, new Color(redImage.color.r, redImage.color.g, redImage.color.b, 0f), Time.deltaTime / delayTime);
+            yield return null;
+        }*/
+        redImage.color = new Color(redImage.color.r, redImage.color.g, redImage.color.b, 0);
+
+        redImage.gameObject.SetActive(false);
+    }
 
 
 }

@@ -1,21 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Box : MonoBehaviour
 {
-    public Animator doorAnimator;
+    public Animator boxAnimator;
 
 
 
-    public Image doorOpenImage;
+    public Image boxOpenImage;
 
     private bool isOpen = false;
     private bool isReady = false;
+    //private bool 
 
+    private AnimatorStateInfo boxAnimatorInfo;
+    public Collider boxColl;
 
+    public GameObject ammoSupply;
+    public Collider ammoSupplyColl;
+
+    
 
 
     private void Update()
@@ -23,10 +31,16 @@ public class Box : MonoBehaviour
 
         if (isReady)
         {
-            if (Input.GetKeyDown(KeyCode.E))
+            if (!isOpen)
             {
-                doorAnimator.SetBool("Open", true);
-                doorOpenImage.transform.gameObject.SetActive(false);
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    boxAnimator.SetBool("Open", true);
+                    boxOpenImage.transform.gameObject.SetActive(false);
+
+                    StartCoroutine(checkBoxAnimation());
+                    isOpen = true;
+                }
             }
         }
     }
@@ -38,8 +52,7 @@ public class Box : MonoBehaviour
         if (!isOpen)
         {
             isReady = true;
-            doorOpenImage.transform.gameObject.SetActive(true);
-            isOpen = true;
+            boxOpenImage.transform.gameObject.SetActive(true);
         }
     }
 
@@ -48,6 +61,28 @@ public class Box : MonoBehaviour
         if (!isOpen)
         {
             isReady = false;
+            boxOpenImage.transform.gameObject.SetActive(false);
         }
+    }
+
+    private IEnumerator checkBoxAnimation()
+    {
+        boxAnimatorInfo = boxAnimator.GetCurrentAnimatorStateInfo(0);
+
+        /*if (boxAnimatorInfo.IsTag("Open"))
+        {
+            
+        }*/
+
+        if (boxAnimatorInfo.normalizedTime >= 0.95f)
+        {
+            boxColl.enabled = false;
+            ammoSupplyColl.enabled = true;
+            yield return new WaitForSeconds(1f);
+            ammoSupply.SetActive(true);
+            ammoSupply.layer = LayerMask.NameToLayer("Item");
+        }
+
+        yield return null;  
     }
 }

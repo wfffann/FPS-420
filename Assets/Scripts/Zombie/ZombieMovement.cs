@@ -73,8 +73,8 @@ public class ZombieMovement : MonoBehaviour
     private void FixedUpdate()
     {
         //判断是否死亡
-        if (characterStats.CurrentHealth == 0)
-            isDead = true;
+        if (characterStats.CurrentHealth == 0) isDead = true;
+
 
         //状态的切换
         SwitchStates();
@@ -92,6 +92,8 @@ public class ZombieMovement : MonoBehaviour
         //只有在非死亡状态
         if (isDead)
             enemyState = EnemyState.DEAD;
+
+        //如果发现玩家
         else if (FoundPlayer())
         {
             enemyAgent.isStopped = false;
@@ -107,7 +109,7 @@ public class ZombieMovement : MonoBehaviour
         {
             enemyState = EnemyState.PATROL;
         }*/
-        Debug.Log(enemyState);
+        //Debug.Log(enemyState);
 
 
 

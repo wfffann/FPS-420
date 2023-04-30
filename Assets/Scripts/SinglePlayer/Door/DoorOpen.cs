@@ -27,6 +27,7 @@ public class DoorOpen : MonoBehaviour
             {
                 doorAnimator.SetBool("Open", true);
                 doorOpenImage.transform.gameObject.SetActive(false);
+                isOpen = true;
             }
         }
     }
@@ -39,7 +40,6 @@ public class DoorOpen : MonoBehaviour
         {
             isReady = true;
             doorOpenImage.transform.gameObject.SetActive(true);
-            isOpen = true;
         }
     }
 
@@ -48,6 +48,7 @@ public class DoorOpen : MonoBehaviour
         if(!isOpen)
         {
             isReady = false;
+            doorOpenImage.transform.gameObject.SetActive(false);
         }
     }
 }

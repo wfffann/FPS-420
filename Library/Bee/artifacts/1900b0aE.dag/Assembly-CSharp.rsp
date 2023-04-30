@@ -401,6 +401,7 @@
 "Assets/Scripts/Items/AttachmentItem.cs"
 "Assets/Scripts/Items/BaseItem.cs"
 "Assets/Scripts/Items/FirearmsItem.cs"
+"Assets/Scripts/Items/Supply.cs"
 "Assets/Scripts/Manager/Singleton.cs"
 "Assets/Scripts/Manager/WeaponManager.cs"
 "Assets/Scripts/Player/FootStepAudioData.cs"

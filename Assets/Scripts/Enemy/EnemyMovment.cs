@@ -18,6 +18,7 @@ public class EnemyMovment : MonoBehaviour
     private Animator animator;
     private CharacterStats characterStats;
     private Collider coll;
+    private Rigidbody enemyRigdbody;
 
     //public Image playerHealthImage;
     public GameObject ownHealthImage;
@@ -67,9 +68,10 @@ public class EnemyMovment : MonoBehaviour
 
     //bool
     private bool isGuard;
-    private bool isDead;
+    private bool isDead = false;
     private bool isExposure;
     private bool isFindingPoint;
+    private bool isAlreadyDied;
 
     //WallPoint
     public float findWallPointRange;
@@ -95,11 +97,13 @@ public class EnemyMovment : MonoBehaviour
     public LayerMask playerLayerMask;
     public GameObject rawPoint;
     
-
+    
     
 
     private void Awake()
     {
+        enemyRigdbody = GetComponent<Rigidbody>();
+        coll = GetComponent<Collider>();
         enemyAgent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         characterStats = GetComponent<CharacterStats>();
@@ -115,8 +119,10 @@ public class EnemyMovment : MonoBehaviour
 
     private void Start()
     {
+        //OpenOrCloseKinematic(isDead);
+
         //enemyAgent.updateRotation = false
-        
+
         //初始赋予巡逻的状态
         enemyState = EnemyState.PATROL;
 
@@ -143,14 +149,13 @@ public class EnemyMovment : MonoBehaviour
         //Debug.Log("isFinding:" + isFindingPoint);
 
 
+        if (isAlreadyDied) return;
+
         //如果存在攻击目标
         if (attackTarget != null)
         {   
-
-            
-
             //绘制射线
-            Debug.DrawLine(transform.position, attackTarget.transform.position - transform.position, Color.red);
+            Debug.DrawRay(transform.position, attackTarget.transform.position - transform.position, Color.red);
 
             /*//如果不是正在寻找掩护点
             if (!isFindingPoint)
@@ -405,22 +410,33 @@ public class EnemyMovment : MonoBehaviour
                     enemyAgent.destination = targetPoint.transform.position;
                 }
 
-
-
-
-
                 break;
             case EnemyState.DEAD:
                 //直接关闭导航
                 enemyAgent.enabled = false;
-                //coll.enable = false;
+
+                //关闭碰撞体
+                //coll.enabled = false;
+                enemyRigdbody.isKinematic = true;
                 //animator.SetTrigger("Dead");
+
+                //Idle状态
+                animator.SetFloat("Velocity", 0f);
+
+                //关闭动画机
+                //animator.enabled = false;
+
                 //关闭血条
                 ownHealthImage.SetActive(false);
+
+                //关闭动画
                 animator.enabled = false;
+                isAlreadyDied = true;
 
+                //Destroy(gameObject);
 
-                Destroy(gameObject);
+                OpenOrCloseKinematic();
+
                 break;
         }
     }
@@ -477,7 +493,26 @@ public class EnemyMovment : MonoBehaviour
         }
     }
 
-    void EnemyAttack()
+
+    public GameObject body;
+    //Enemy的Rigidbody Is Kinematic
+    private void OpenOrCloseKinematic()
+    {
+        var colliders = body.GetComponentsInChildren<Collider>();
+        var rigidBodys = body.GetComponentsInChildren<Rigidbody>();
+        foreach(var rigidBody in rigidBodys)
+        {
+            rigidBody.isKinematic = false;
+        }
+        foreach (var collider in colliders)
+        {
+            collider.enabled = true;
+        }
+    }
+
+
+
+    private void EnemyAttack()
     {
         if (TargetInAttackRange())
         {

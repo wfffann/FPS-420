@@ -33,6 +33,16 @@ namespace Scripts.Weapon
         public int GetCurrentAmmoreturn => currentAmmo;
         public int GetCurrentMaxAmmoCarried => currentMaxAmmoCarried;
 
+        public int CurrentAmmo
+        {
+            set { currentAmmo = value; }
+        }
+
+        public int MaxAmmoCarried
+        {
+            set { maxAmmoCarried = value; }
+        }
+
         public float spreadAngle;
 
         //¿ªÇ¹µÄÆµÂÊ
